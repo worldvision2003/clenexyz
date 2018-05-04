@@ -1,5 +1,13 @@
-<?php include 'config.php'; ?>
-<?php include 'functions.php'; ?>
+<?php
+
+  include 'config.php';
+  include 'functions.php';
+
+  $op = isset($_GET['op']) ? $_GET['op'] : 'wall';
+  if ( !in_array($op, array('registrar', 'perfil', 'wall', 'login', 'logout')) )
+    $op = 'wall';
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,8 +102,7 @@
 
       rpc('rpc.php?action=wall', formdata);
     }
-
-    setInterval(updateWall, 3000);
+    <?php if($op === 'wall') echo "\n\tsetInterval(updateWall, 3000);"; ?>
 
   </script>
 </head>
@@ -119,10 +126,6 @@
   </div>
   <div id="content">
 <?php
-
-  $op = isset($_GET['op']) ? $_GET['op'] : 'wall';
-  if ( !in_array($op, array('registrar', 'perfil', 'wall', 'login', 'logout')) )
-    $op = 'wall';
 
   switch ( $op )
   {
@@ -216,8 +219,7 @@
   </div>
 
   <script type="text/javascript">
-    window.onload = updateWall();
-
+    <?php if($op === 'wall') echo "window.onload = updateWall();\n\n"; ?>
     var recursiveBind = function(item, formdata) {
       if ( item.hasChildNodes() )
         Array.from(item.children).forEach(function(item, index){

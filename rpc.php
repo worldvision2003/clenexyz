@@ -10,6 +10,7 @@
   $action['wall']   = 0;
   $action['logout'] = 1;
   $action['upload'] = 1;
+  $action['registrar'] = 0;
 
   $op = $_GET['action'];
 

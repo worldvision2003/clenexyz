@@ -1,5 +1,6 @@
 <?php
 
+  function mensagem($msg){ return "document.getElementById('mensagem').innerHTML = '". addslashes($msg) ."'"; }
   function getPrivilegio(){ return isset($_SESSION['priv']) ? $_SESSION['priv'] : 0; }
   function verificaAcesso($level)
   {
@@ -89,10 +90,10 @@ result.forEach(function(item, index){
           return "location.href='$root/'";
         }
         else
-          return "document.getElementById('mensagem').innerHTML = 'senha incorreta'";
+          return mensagem('senha incorreta');
       }
       else
-        return "document.getElementById('mensagem').innerHTML = 'usuário/email inexistente'";
+        return mensagem('usuário/email inexistente');
     }
   }
 
@@ -119,4 +120,27 @@ result.forEach(function(item, index){
 
     mysqli_query($conn, "INSERT INTO clene (userid, data, nome, imagem, tipo, ativo) VALUES ($_SESSION[ID], NOW(), '$nome', '$conteudo', '$tipo', 1)");
     return "alert(". mysqli_error($conn) .")";
+  }
+
+  function action_registrar()
+  {
+    global $conn, $root, $secret;
+
+    if (  (empty($_POST['login']) || empty($_POST['nome']) ||
+           empty($_POST['email']) || empty($_POST['senha'])) )
+       return "alert('todos os campos devem ser preenchidos')";
+
+    $res = mysqli_query($conn, "SELECT ID FROM usuario WHERE LOWER(login)=LOWER('$_POST[login]')");
+    if ( mysqli_num_rows($res) )
+      return mensagem('login já existe');
+
+    $res = mysqli_query($conn, "SELECT ID FROM usuario WHERE LOWER(email)=LOWER('$_POST[email]')");
+    if ( mysqli_num_rows($res) )
+      return mensagem('email já existe');
+
+    $res = mysqli_query($conn, "INSERT INTO usuario (login, nome, email, senha, token, criado, logado, priv) VALUES
+    ('$_POST[login]', '$_POST[nome]', '$_POST[email]', MD5(CONCAT('$secret', '$_POST[senha]')), '', NOW(), NOW(), 1)");
+
+    if ( mysqli_affected_rows($conn) )
+      return "location.href='$root/?op=login';";
   }
