@@ -27,49 +27,9 @@
       $result = array();
       while ( ($clene = mysqli_fetch_assoc($res)) )
         $result[] = $clene;
-?>
-var wall = document.getElementById('wall');
-var numClenes = document.getElementsByClassName('clene').length;
 
-var result = <?php echo json_encode($result); ?>;
-var count = 0;
-
-result.forEach(function(item, index){
-
-  if ( index >= numClenes )
-  {
-    var clene = document.createElement('div');
-    clene.className = 'clene';
-
-    var imgClene = document.createElement('img');
-    imgClene.className = 'imgClene';
-    imgClene.src = 'imagem.php?id=' + result[count].ID;
-
-    var nomeClene = document.createElement('div');
-    nomeClene.className = 'nomeClene';
-    nomeClene.innerHTML = item.nome;
-
-    var uploader = document.createElement('div');
-    uploader.className = 'nomeClene';
-    uploader.innerHTML = 'Uploader: ' + result[count++].uploader;
-
-    clene.appendChild(imgClene);
-    clene.appendChild(nomeClene);
-    clene.appendChild(uploader);
-
-    if ( !wall.firstElementChild )
-      wall.appendChild(clene);
-    else
-    {
-      if ( wall.firstElementChild.className == 'cleneup'  )
-        wall.insertBefore(clene, wall.firstElementChild.nextSibling);
-      else
-        wall.insertBefore(clene, wall.firstChild);
-    }
-  }
-});
-
-<?php
+      echo "var result = ". json_encode($result) .";\n";
+      echo "atualizaClenes(result);";
     }
   }
 
@@ -118,7 +78,7 @@ result.forEach(function(item, index){
     $nome = strlen($_POST['nome']) > 3 ? $_POST['nome'] : 'sem nome';
 
     mysqli_query($conn, "INSERT INTO clene (userid, data, nome, imagem, tipo, ativo) VALUES ($_SESSION[ID], NOW(), '$nome', '$conteudo', '$tipo', 1)");
-    return "alert(". mysqli_error($conn) .")";
+    return "document.getElementsByClassName('imgClene')[0].src='imagem.php'";
   }
 
   function action_registrar()
