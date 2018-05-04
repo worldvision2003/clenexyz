@@ -5,7 +5,62 @@
 <head>
   <meta charset="UTF-8">
   <title>clene.xyz</title>
-  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link rel="stylesheet" type="text/css" href="xcss/main.css" />
+  <style>
+  #header {
+    text-align: center;
+    font-family: Verdana;
+
+    margin: 15px;
+  }
+
+  #content,#menu,#mensagem {
+    background: #0000;
+  }
+
+  #content {
+    margin-top: 50px;
+  }
+
+  #wall {
+    white-space: normal;
+    overflow-x: scroll;
+
+    background-color: #ff00;
+  }
+
+  .item {
+    margin: 5px;
+  }
+
+  .clene, .cleneup {
+    width: 30%;
+    height: 350px;
+    border: 1px solid black;
+    padding: 12px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: justify;
+  }
+
+  .imgClene {
+    width: 100%;
+    height: 300px;
+  }
+
+  .nomeClene {
+    /**/
+  }
+
+  .uploadForm {
+    height: 20px;
+    width: 80px;
+    /*padding: 20px;*/
+  }
+
+  </style>
 
   <script type="text/javascript">
     function rpc(action, data)
@@ -18,13 +73,36 @@
         if (req.status == 200 )
           eval(req.responseText);
       }
+
+      return false;
     }
+
+    function bind(item, formdata)
+    {
+      if( item.tagName.toLowerCase() == 'input' )
+      if ( item.type.toLowerCase() != 'file' )
+        formdata.append(item.name, item.value);
+      else
+        formdata.append(item.name, item.files[0]);
+    }
+
+    function updateWall()
+    {
+      var formdata = new FormData();
+      formdata.append('limit', '30');
+      formdata.append('offset', '0');
+
+      rpc('rpc.php?action=wall', formdata);
+    }
+
+    setInterval(updateWall, 3000);
+
   </script>
 </head>
 
 <body>
   <div id="header">
-    <div style="font-size: 40px; margin: 35px;">clene.xyz</div>
+    <div style="font-size: 50px; margin: 40px;">clene.xyz</div>
 
     <div id="menu">
 <?php
@@ -33,7 +111,8 @@
       {
         if ( (!getPrivilegio() && in_array($item['priv'], array(-1, 0))) ||
              ( getPrivilegio() >= $item['priv'] && $item['priv'] >= 0) )
-          echo "\t<a class='item' href='/clene$item[target]'>$item[nome]</a>";
+
+          echo "\t<a class='item' href='/clene$item[target]'>$item[nome]</a>\n";
       }
 ?>
     </div>
@@ -42,12 +121,36 @@
 <?php
 
   $op = isset($_GET['op']) ? $_GET['op'] : 'wall';
+  if ( !in_array($op, array('registrar', 'perfil', 'wall', 'login', 'logout')) )
+    $op = 'wall';
 
   switch ( $op )
   {
+    case 'registrar':
+    if ( getPrivilegio() > 0 )
+    {
+      header('Location: rpc.php?op=logout');
+    }
+    else
+    {
+?>
+    <div id="mensagem"></div>
+    <form action="rpc.php?action=registrar" method="POST">
+      <table>
+        <tr><td>Login</td><td><input type="text" name="login" placeholder="login" /></td></tr>
+        <tr><td>Nome</td><td><input type="text" name="nome" placeholder="login" /></td></tr>
+        <tr><td>E-mail</td><td><input type="text" name="email" placeholder="email" /></td></tr>
+        <tr><td>Senha</td><td><input type="password" name="senha" placeholder="senha" /></td></tr>
+        <tr><td><input type="submit" value="Log in"></td></tr>
+      </table>
+    </form>
+<?php
+    }
+    break;
+
     case 'perfil':
 
-    if ( getPrivilegio() > 0 )
+    if ( verificaAcesso(1) )
     {
 ?>
     <table>
@@ -60,7 +163,7 @@
     break;
 
     case 'logout':
-      echo "<script type=\"text/javascript\">rpc('rpc.php?action=logout', '');</script>";
+      echo "<script type=\"text/javascript\">rpc('rpc.php?action=logout', '');</script>\n";
     break;
 
     case 'login':
@@ -74,42 +177,63 @@
 ?>
     <div id="mensagem"></div>
     <form action="rpc.php?action=login" method="POST">
-      <input type="text" name="login" placeholder="login" />
-      <input type="password" name="senha" placeholder="senha" />
-      <input type="submit" value="Log in">
+      <table>
+        <tr><td>Login</td><td><input type="text" name="login" placeholder="login" /></td></tr>
+        <tr><td>Senha</td><td><input type="password" name="senha" placeholder="senha" /></td></tr>
+        <tr><td><input type="submit" value="Log in"></td></tr>
+      </table>
     </form>
 <?php
     }
     break;
 
     case 'wall':
+    echo "\t<div id=\"wall\">\n";
     if ( getPrivilegio() > 0 )
     {
 ?>
-    <form action="rpc.php?action=upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="clene" accept="image/*" />
-      <input type="submit" value="Enviar" />
-    </form>
+    <div class="cleneup" style="position: relative; left: 0px; top: 0px;">
+      <form action="rpc.php?action=upload" method="POST" enctype="multipart/form-data">
+        <table class="uploadForm">
+          <label for="fileClene">
+            <img class="imgClene" src="imagem.php" />
+          </label>
+          <tr><td><input type="file" name="clene" accept="image/*" id="fileClene" /></td></tr>
+          <tr><td><input type="text" name="nome" /></td>
+          <td><input type="submit" value="Enviar" /></td></tr>
+        </table>
+      </form>
+    </div>
 
 <?php
     }
+
+    echo "\t</div>\n";
+
     break;
   }
 ?>
   </div>
 
   <script type="text/javascript">
+    window.onload = updateWall();
+
+    var recursiveBind = function(item, formdata) {
+      if ( item.hasChildNodes() )
+        Array.from(item.children).forEach(function(item, index){
+          recursiveBind(item, formdata);
+        });
+      else bind(item, formdata);
+    }
+
     Array.from(document.getElementsByTagName('form')).forEach(function(item, index){
       item.onsubmit = function(){
         var formdata = new FormData();
-
         Array.from(item.children).forEach(function(item, index){
-          if( item.tagName.toLowerCase() == 'input' )
-            formdata.append(item.name, item.value);
-        })
+          recursiveBind(item, formdata);
+        });
 
-        rpc(item.action, formdata);
-        return false;
+        return rpc(item.action, formdata);
       }
     });
   </script>

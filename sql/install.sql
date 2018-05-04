@@ -11,8 +11,8 @@ CREATE TABLE `usuario` (
   email     VARCHAR(60) NOT NULL,
   senha     VARCHAR(32) NOT NULL,
   token     VARCHAR(32) NOT NULL,
-  criado    VARCHAR(32) NOT NULL,
-  logado    VARCHAR(32) NOT NULL,
+  criado    DATETIME    NOT NULL,
+  logado    DATETIME    NOT NULL,
   propic    LONGBLOB    DEFAULT NULL,
   priv      INTEGER     NOT NULL
 );
@@ -29,14 +29,18 @@ CREATE TABLE `menu` (
 DROP TABLE IF EXISTS `clene`;
 CREATE TABLE `clene` (
   ID        INTEGER PRIMARY KEY AUTO_INCREMENT,
+  userid    INTEGER     NOT NULL,
+  data      DATETIME    NOT NULL,
   nome      VARCHAR(20) DEFAULT NULL,
   descr     VARCHAR(60) DEFAULT NULL,
   imagem    LONGBLOB    NOT NULL,
+  tipo      VARCHAR(20) NOT NULL,
   ativo     BOOLEAN     NOT NULL
 );
 
 INSERT INTO `usuario` (login,nome,email,senha,token,criado,logado,propic,priv)
-VALUES ('teste','Teste da Silva','teste@teste.com','4daaed10d00f88929b0516a1028b8cb3','','','','',1);
+VALUES ('teste','Teste da Silva','teste@teste.com','4daaed10d00f88929b0516a1028b8cb3','',NOW(),NOW(),'',1);
 
 INSERT INTO `menu` (nome,target,priv,ativo) VALUES
-('Home', '/', 0, 1), ('Perfil', '/?op=perfil', 1, 1), ('Login', '/?op=login', -1, 1), ('Logout', '/?op=logout', 1, 1);
+('Home', '/', 0, 1), ('Perfil', '/?op=perfil', 1, 1), ('Login', '/?op=login', -1, 1), ('Registrar', '/?op=registrar', -1, 1),
+('Logout', '/?op=logout', 1, 1);
