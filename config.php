@@ -15,3 +15,9 @@
   mysqli_select_db($conn, DB_NAME) or die('nao pude conectar ao db ' . DB_NAME);
 
   session_start();
+
+  foreach ( $_POST as $key => $value )
+    $_POST[$key] = mysqli_real_escape_string($conn, $value);
+
+  foreach ( $_GET as $key => $value )
+    $_GET[$key] = mysqli_real_escape_string($conn, $value);
