@@ -4,9 +4,6 @@
   include 'functions.php';
 
   $op = isset($_GET['op']) ? $_GET['op'] : 'wall';
-  if ( !in_array($op, array('registrar', 'perfil', 'wall', 'login', 'logout')) )
-    $op = 'wall';
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,7 +60,7 @@
         if ( (!getPrivilegio() && in_array($item['priv'], array(-1, 0))) ||
              ( getPrivilegio() >= $item['priv'] && $item['priv'] >= 0) )
 
-          echo "\t<a class='item' href='/clene$item[target]'>$item[nome]</a>\n";
+          echo "\t<a class='item' href='$root$item[target]'>$item[nome]</a>\n";
       }
 ?>
     </div>
@@ -73,6 +70,12 @@
 
   switch ( $op )
   {
+    case 'ranking':
+?>
+    em construção
+<?php
+    break;
+
     case 'registrar':
     if ( getPrivilegio() > 0 )
     {
@@ -157,6 +160,10 @@
 
     echo "\t</div>\n";
 
+    break;
+
+    default:
+    echo "operação inválida";
     break;
   }
 ?>

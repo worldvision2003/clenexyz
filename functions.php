@@ -4,10 +4,9 @@
   function getPrivilegio(){ return isset($_SESSION['priv']) ? $_SESSION['priv'] : 0; }
   function verificaAcesso($level)
   {
+    global $root;
     if ( getPrivilegio() < $level )
     {
-      global $root;
-
       if ( getPrivilegio() )
         echo "acesso negado";
       else

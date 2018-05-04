@@ -42,5 +42,5 @@ INSERT INTO `usuario` (login,nome,email,senha,token,criado,logado,propic,priv)
 VALUES ('teste','Teste da Silva','teste@teste.com','4daaed10d00f88929b0516a1028b8cb3','',NOW(),NOW(),'',1);
 
 INSERT INTO `menu` (nome,target,priv,ativo) VALUES
-('Home', '/', 0, 1), ('Perfil', '/?op=perfil', 1, 1), ('Login', '/?op=login', -1, 1), ('Registrar', '/?op=registrar', -1, 1),
+('Home', '/', 0, 1), ('Perfil', '/?op=perfil', 1, 1), ('Ranking', '/?op=ranking', 1, 1), ('Login', '/?op=login', -1, 1), ('Registrar', '/?op=registrar', -1, 1),
 ('Logout', '/?op=logout', 1, 1);
