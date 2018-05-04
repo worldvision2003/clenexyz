@@ -13,63 +13,7 @@
 <head>
   <meta charset="UTF-8">
   <title>clene.xyz</title>
-  <link rel="stylesheet" type="text/css" href="xcss/main.css" />
-  <style>
-  #header {
-    text-align: center;
-    font-family: Verdana;
-
-    margin: 15px;
-  }
-
-  #content,#menu,#mensagem {
-    background: #0000;
-  }
-
-  #content {
-    margin-top: 50px;
-  }
-
-  #wall {
-    white-space: normal;
-    overflow-x: scroll;
-
-    background-color: #ff00;
-  }
-
-  .item {
-    margin: 5px;
-  }
-
-  .clene, .cleneup {
-    width: 30%;
-    height: 350px;
-    border: 1px solid black;
-    padding: 12px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: justify;
-  }
-
-  .imgClene {
-    width: 100%;
-    height: 300px;
-  }
-
-  .nomeClene {
-    /**/
-  }
-
-  .uploadForm {
-    height: 20px;
-    width: 80px;
-    /*padding: 20px;*/
-  }
-
-  </style>
-
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
   <script type="text/javascript">
     function rpc(action, data)
     {
