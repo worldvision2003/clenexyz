@@ -10,93 +10,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <linsk rel="stylesheet" type="text/css" href="css/main.cssx" />
+  <linsk rel="stylesheet" type="text/css" href="css/main.css" />
   <script type="text/javascript" src="js/main.js"></script>
   <title>clene.xyz</title>
 
-  <style>
-  body {
-    background: #eee;
-    line-height: 1.6vw;
-  }
-
-  a:link, a:visited, a:hover, a:active {
-    color: #000;
-    text-decoration: none;
-  }
-
-  #header {
-    text-align: center;
-    font-family: Verdana;
-
-    padding: 3vw 3vw 1.5vw 3vw;
-    margin: 1vw 1.5vw;
-    background: #fff;
-  }
-
-  #content, #menu, #mensagem {
-  }
-
-  #content {
-    margin-top: 1.5vw;
-    width: 100%;
-    height: 100%;
-
-    font-family: Arial;
-    font-size: 1.3vw;
-  }
-
-  #wall {
-    white-space: normal;
-    overflow-x: scroll;
-
-    background-color: #ff00;
-    position: relative;
-    margin: 0 auto;
-    width: 100%;
-    text-align: center;
-  }
-
-  .item {
-    margin: 1.2vw;
-    font-size: 1.4vw;
-  }
-
-  .clene, .cleneup {
-    background: #fff;
-    width: 30%;
-    height: 30.5vw;
-    border: 0.1em solid #d0d0d0;
-    padding: 0.5%;
-    margin-right: 1vw;
-    margin-bottom: 1vw;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: justify;
-  }
-
-  .imgClene {
-    width: 100%;
-    height: 26vw;
-  }
-
-  .nomeClene {
-    margin-top: 0.4vw;
-    margin-left: 0.5vw;
-  }
-
-  .uploadForm {
-    /*display:;
-    width: 25vw;
-    color: #ff0000;*/
-  }
-
-  /*input {
-    height: 0.5vw;
-    width: 2vw;
-  }*/
-
-  </style>
   <script type="text/javascript">
     function rpc(action, data)
     {
