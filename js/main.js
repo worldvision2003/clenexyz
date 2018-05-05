@@ -5,7 +5,7 @@ function createClene(id, nome, user)
 
   var imgClene = document.createElement('img');
   imgClene.className = 'imgClene';
-  imgClene.src = 'imagem.php?id=' + id;
+  imgClene.src = 'imagem.php?thumb&id=' + id;
 
   var nomeClene = document.createElement('div');
   nomeClene.className = 'nomeClene';

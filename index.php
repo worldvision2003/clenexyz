@@ -15,7 +15,7 @@
   <title>clene.xyz</title>
 
   <script type="text/javascript">
-    function rpc(action, data)
+    function rpc(action, data, callback)
     {
       var req = new XMLHttpRequest();
       req.open('POST', action, true);
@@ -23,7 +23,7 @@
 
       req.onload = function(){
         if (req.status == 200 )
-          eval(req.responseText);
+          callback(req.responseText);
       }
 
       return false;
@@ -44,7 +44,9 @@
       formdata.append('limit', '30');
       formdata.append('offset', '0');
 
-      rpc('rpc.php?action=wall', formdata);
+      rpc('rpc.php?action=wall', formdata, function(r){
+        atualizaClenes(eval(r));
+      });
     }
     <?php if($op === 'wall') echo "\n\tsetInterval(updateWall, 3000);"; ?>
 
@@ -116,7 +118,7 @@
     break;
 
     case 'logout':
-      echo "<script type=\"text/javascript\">rpc('rpc.php?action=logout', '');</script>\n";
+      echo "<script type=\"text/javascript\">rpc('rpc.php?action=logout', '', eval);</script>\n";
     break;
 
     case 'login':
@@ -189,7 +191,7 @@
           recursiveBind(item, formdata);
         });
 
-        return rpc(item.action, formdata);
+        return rpc(item.action, formdata, eval);
       }
     });
   </script>

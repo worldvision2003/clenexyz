@@ -8,9 +8,9 @@
     if ( getPrivilegio() < $level )
     {
       if ( getPrivilegio() )
-        echo "acesso negado";
+        echo "\tacesso negado\n";
       else
-        echo "<script type=\"text/javascript\">location.href='$root/?op=login';</script>";
+        echo "\t<script type=\"text/javascript\">location.href='$root/?op=login';</script>\n";
 
       return false;
     }
@@ -28,8 +28,7 @@
       while ( ($clene = mysqli_fetch_assoc($res)) )
         $result[] = $clene;
 
-      echo "var result = ". json_encode($result) .";\n";
-      echo "atualizaClenes(result);";
+      echo json_encode($result);
     }
   }
 
